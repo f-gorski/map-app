@@ -14,7 +14,10 @@
     height: 100%;
 }
 
-.poligons {
-    background-color: red;
-    z-index: 99999;
+.devPlan-popup {
+    list-style: none;
+}
+
+.devPlan-popup span {
+    font-weight: bold;
 }

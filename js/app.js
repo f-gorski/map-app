@@ -27,14 +27,9 @@ class App extends Component {
     
     render() {
       const position = [this.state.lat, this.state.lng]
-      console.log(this.state.data);
       return (
         <>
-        {this.state.data
-        ?
         <Map center={position} zoom={this.state.zoom} data={this.state.data} />
-        :
-        <div>Wczytuję</div>}
         </>
       )
     }
