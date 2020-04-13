@@ -14,27 +14,22 @@ class App extends Component {
           }
     }
 
-    componentDidMount() {
-        const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        const url = "https://mapa.um.warszawa.pl/WebServices/ZasiegiPlanow/wgs84/findAll/";
-        fetch(proxyurl + url)
-        .then( result => result.json() )
-        .then( objects => this.setState({
-            data: objects
-        }))
-        .catch(() => alert("Błąd przy wczytywaniu danych"));
-    }
+    // componentDidMount() {
+    //     const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    //     const url = "https://mapa.um.warszawa.pl/WebServices/ZasiegiPlanow/wgs84/findAll/";
+    //     fetch(proxyurl + url)
+    //     .then( result => result.json() )
+    //     .then( objects => this.setState({
+    //         data: objects
+    //     }))
+    //     .catch(() => alert("Błąd przy wczytywaniu danych"));
+    // }
     
     render() {
       const position = [this.state.lat, this.state.lng]
-      console.log(this.state.data);
       return (
         <>
-        {this.state.data
-        ?
-        <Map center={position} zoom={this.state.zoom} data={this.state.data} />
-        :
-        <div>Wczytuję</div>}
+        <Map center={position} zoom={this.state.zoom}  />
         </>
       )
     }
