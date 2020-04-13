@@ -13,11 +13,8 @@ export default class Map extends Component {
   }
 
   choosePolygons = (data) => {
-    
-    let bounds = this.state.mapBounds;
-    console.log(bounds);
 
-    console.log(data)
+    let bounds = this.state.mapBounds;
 
     const filteredPolygons = [];
     let isInBounds;
@@ -34,7 +31,6 @@ export default class Map extends Component {
       null;
     })
     
-    console.log("filteredPolygons", filteredPolygons);
     
     return filteredPolygons;
   }
@@ -52,7 +48,6 @@ export default class Map extends Component {
   }
 
    componentDidMount() {
-     console.log("Component Did Mount", this.refs.map.leafletElement.getBounds())
     this.setState({
       mapBounds: this.refs.map.leafletElement.getBounds()
     })
@@ -79,7 +74,7 @@ export default class Map extends Component {
   render() {
     
     const polygonData = this.state.data ? this.choosePolygons(this.state.data) : null
-    console.log(polygonData)
+
     return (
       <>
       <LeafletMap onZoomEnd={this.handleZoom} onMoveEnd={this.handleMove} center={this.props.center} zoom={this.props.zoom} ref='map' >
@@ -103,21 +98,9 @@ class LocalDevPlans extends Component {
   constructor(props) {
     super(props);
   }
-    // e.target.setStyle({
-    //   color: 'green'
-    // })
-    // e.target.refs.polygonRef.setStyle({
-    //   color: "red",
-    //   fillColor: "yellow"
-    // })
  
-
-
   handlePolygonClick = (e) => {
-    console.log("Kliknięto poligon");
     const polygon = this.ref.current;
-    console.log(polygon);
-    //console.log(polygon.props.polygonData.nazwa_planu);
   }
 
   render() {
@@ -149,29 +132,21 @@ class PolygonWrapper extends Component {
   }
 
   handlePolygonClick = (e) => {
-    //console.log(this.polygonRef.current.leafletElement.getCenter());
-    //console.log(e.target);
-    //this.polygonRef.current.on("click", (e) => {
       this.setState({
         clicked: this.polygonRef.current
       })
-    console.log(this.state.clicked);
     }
     
 
   render() {
     return (
-      <Polygon onClick={this.handlePolygonClick} click={() => console.log("to jest leaflet event")} ref={this.polygonRef} positions={this.props.positions} polygonData={this.props.polygonData} color={"#2DD5C9"} >
+      <Polygon onClick={this.handlePolygonClick} ref={this.polygonRef} positions={this.props.positions} polygonData={this.props.polygonData} color={"#2DD5C9"} >
         
         <Popup closeOnEscapeKey={false}>
         <ul className="devPlan-popup">
           <li>
             <span>{this.props.polygonData.nazwa_planu}</span>
           </li>
-          {/* <li><span>Nazwa planu:</span> {polygons[index].properties.nazwa_planu}</li>
-          <li><span>Dzielnica:</span> {polygons[index].properties.dzielnica}</li>
-          <li><span>Typ planu:</span> {polygons[index].properties.typ_planu}</li>
-          <li><span>Data uchwalenia:</span> {polygons[index].properties.data_uchwalenia}</li> */}
         </ul>
         </Popup>
       </Polygon>
