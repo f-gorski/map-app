@@ -1,5 +1,6 @@
-import { Map as LeafletMap, TileLayer, Polygon, Marker, Popup } from "react-leaflet";
+import { Map as LeafletMap, TileLayer, Polygon, Marker, Popup, LayersControl, FeatureGroup } from "react-leaflet";
 import React, {Component} from "react";
+import { mapBoxUrl } from "../credentials";
 
 
 export default class Map extends Component {
@@ -7,12 +8,13 @@ export default class Map extends Component {
     super(props);
 
     this.state = {
-      data: null,
+      devPlansData: null,
+      terrFuncData: null,
       mapBounds: null
     }
   }
 
-  choosePolygons = (data) => {
+  filterPolygons = (data) => {
 
     let bounds = this.state.mapBounds;
 
@@ -53,46 +55,112 @@ export default class Map extends Component {
     })
 
 
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
-        const url = "https://mapa.um.warszawa.pl/WebServices/ZasiegiPlanow/wgs84/findAll/";
-        fetch(proxyurl + url)
+    const proxyURL = "https://cors-anywhere.herokuapp.com/";
+        const devPlansURL = "https://mapa.um.warszawa.pl/WebServices/ZasiegiPlanow/wgs84/findAll/";
+        fetch(proxyURL + devPlansURL)
         .then( result => result.json() )
-        .then( objects => {
-          objects.features.forEach( (feature) => {
+        .then( devPlans => {
+          devPlans.features.forEach( (feature) => {
             feature.geometry.coordinates[0].forEach( (coordXY) => {
               coordXY.reverse();
             })
           })
 
           this.setState({
-            data: objects
+            devPlansData: devPlans
           })
         })
-        .catch(() => alert("Błąd przy wczytywaniu danych"));
+        .catch( () => alert("Błąd przy wczytywaniu danych o planach zagospodarowania"));
+
+    const terrainFunctionURL = "http://mapa.um.warszawa.pl/WebServices/PrzeznaczenieTerenow/wgs84/findByFunName/zabudowa"
+    fetch(proxyURL + terrainFunctionURL)
+    .then( result => result.json() )
+    .then( terrFunc => {
+      terrFunc.features.forEach( (feature) => {
+        feature.geometry.coordinates[0].forEach( (coordXY) => {
+          coordXY.reverse()
+        })
+      })
+
+      this.setState({
+        terrFuncData: terrFunc
+      })
+    })
+    .catch( () => alert("Błąd przy wczytywaniu danych o funkcji terenu"))
   }
+
 
   render() {
     
-    const polygonData = this.state.data ? this.choosePolygons(this.state.data) : null
+    const devPlansData = this.state.devPlansData ? this.filterPolygons(this.state.devPlansData) : null
+    const terrFuncData = this.state.terrFuncData ? this.filterPolygons(this.state.terrFuncData) : null
+
+    const nameDevPlans = !this.state.devPlansData ? "<span class='layer'>Plany zagospodarowania</span> <span class='loader'></span>" : "<span class='layer'>Plany zagospodarowania</span>"
+    const nameTerrFunc = !this.state.terrFuncData ? "<span class='layer'>Przeznaczenie terenów</span> <span class='loader'></span>" : "<span class='layer'>Przeznaczenie terenów</span>"
+
+    const isLoadedDevPlans = !this.state.devPlansData ? "DevPlans false" : "DevPlans true"
+    const isLoadedTerrFunc = !this.state.terrFuncData ? "TerrFunc false" : "TerrFunc true"
 
     return (
       <>
       <LeafletMap onZoomEnd={this.handleZoom} onMoveEnd={this.handleMove} center={this.props.center} zoom={this.props.zoom} ref='map' >
-        <TileLayer attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <LayersControl position="topright" collapsed={null} >
+          <LayersControl.BaseLayer name="<span style='color: grey'> Mapa podkładowa</span>" checked="true">
+            <TileLayer attribution='&amp;copy MapBox' url={mapBoxUrl} />
+          </LayersControl.BaseLayer>
 
-        {this.state.data
+        <LayersControl.Overlay name={nameDevPlans} key={isLoadedDevPlans} checked="true">             
+        <FeatureGroup name="Plany">
+        {this.state.devPlansData
         ?
-        <LocalDevPlans data={polygonData} />
+        <LocalDevPlans data={devPlansData} />
         :
         null
         }
+        </FeatureGroup>
+        </LayersControl.Overlay>
 
+        <LayersControl.Overlay name={nameTerrFunc} key={isLoadedTerrFunc} checked="true">
+        <FeatureGroup name="Funkcje terenu">
+        {this.state.terrFuncData
+        ?
+        <TerrainFunction data={terrFuncData} />
+        :
+        null
+        }
+        </FeatureGroup>
+        </LayersControl.Overlay>
+      </LayersControl>
       </LeafletMap>
       
       </>
     )
   }
 }
+
+class TerrainFunction extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    console.log(this.props.data)
+    const polygons = this.props.data;
+
+    const polyRender = polygons.map( (polygon, index) => {
+      return(
+        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#005b96"/>
+      )
+    })
+
+    return(
+      <>
+        {polyRender};
+      </>
+    )
+  }
+}
+
 
 class LocalDevPlans extends Component {
   constructor(props) {
@@ -106,11 +174,9 @@ class LocalDevPlans extends Component {
   render() {
     const polygons = this.props.data;
 
-    
-
     const polyRender = polygons.map( (polygon, index) => {
       return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} />
+        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#2DD5C9"/>
       )
     })
 
@@ -132,20 +198,19 @@ class PolygonWrapper extends Component {
   }
 
   handlePolygonClick = (e) => {
-      this.setState({
-        clicked: this.polygonRef.current
-      })
+      
     }
     
 
   render() {
     return (
-      <Polygon onClick={this.handlePolygonClick} ref={this.polygonRef} positions={this.props.positions} polygonData={this.props.polygonData} color={"#2DD5C9"} >
+      <Polygon ref={this.polygonRef} positions={this.props.positions} polygonData={this.props.polygonData} color={this.props.color} >
         
         <Popup closeOnEscapeKey={false}>
-        <ul className="devPlan-popup">
+        <ul className="popup">
           <li>
             <span>{this.props.polygonData.nazwa_planu}</span>
+            <span>{this.props.polygonData.fun_nazwa}</span>
           </li>
         </ul>
         </Popup>

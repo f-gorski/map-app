@@ -1,4 +1,8 @@
 ### Node ###
+
+# Api credentials
+credentials.js
+
 # Logs
 logs
 *.log
