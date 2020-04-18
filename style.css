@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
 }
 
 #mapid {
@@ -16,6 +17,7 @@
 
 .popup {
     list-style: none;
+    font-size: 1.2em;
 }
 
 .popup span {
@@ -27,7 +29,7 @@
     margin-top: 25px;
     margin-right: 15px;
     width: 220px;
-    height: 450px;
+    height: 370px;
     font-size: 1.5em;
     box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);
 }
@@ -104,15 +106,16 @@ div.leaflet-bar a.leaflet-control-zoom-out {
 }
 
 .leaflet-top .leaflet-control-layers-overlays label:nth-of-type(2) input:checked[type="checkbox"] {
-    background: purple;
+    background: #6B5B95;
 }
 
 .leaflet-top .leaflet-control-layers-overlays label:nth-of-type(3) input:checked[type="checkbox"] {
-    background: red;
+    background: #FF6F61;
 }
 
 .leaflet-top .leaflet-control-layers-overlays label:nth-of-type(4) input:checked[type="checkbox"] {
-    background: green;
+    background: #3D9970
+    ;
 }
 
 

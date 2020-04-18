@@ -12,7 +12,7 @@ export default class Map extends Component {
       singleData: null,
       multiData: null,
       mixedData: null,
-      mapBounds: null
+      mapBounds: null,
     }
   }
 
@@ -35,6 +35,7 @@ export default class Map extends Component {
       :
       null;
     })
+    
     
     return filteredPolygons;
   }
@@ -66,9 +67,9 @@ export default class Map extends Component {
               coordXY.reverse();
             })
           })
-
+         
           this.setState({
-            devPlansData: devPlans.features
+            devPlansData: devPlans.features,
           })
         })
         .catch( () => alert("Błąd przy wczytywaniu danych o planach zagospodarowania"));
@@ -82,9 +83,6 @@ export default class Map extends Component {
           coordXY.reverse()
         })
       })
-      //-----------
-      //console.log(terrFunc)
-      //-----------
 
       const singleData = terrFunc.features.filter( (element) => {
         return /^zabudowa jednorodzinna/.test(element.properties.fun_nazwa);
@@ -101,12 +99,11 @@ export default class Map extends Component {
       this.setState({
         singleData: singleData,
         multiData: multiData,
-        mixedData: mixedData
+        mixedData: mixedData,
       })
     })
     .catch( () => alert("Błąd przy wczytywaniu danych o funkcji terenu"))
   }
-
 
   render() {
     
@@ -129,11 +126,9 @@ export default class Map extends Component {
       <>
       <LeafletMap onZoomEnd={this.handleZoom} onMoveEnd={this.handleMove} center={this.props.center} zoom={this.props.zoom} ref='map' >
         <LayersControl position="topright" collapsed={false} >
-          <LayersControl.BaseLayer name="<span style='color: grey'> Mapa podkładowa</span>" checked="true">
             <TileLayer attribution='&amp;copy MapBox' url={mapBoxUrl} />
-          </LayersControl.BaseLayer>
 
-        <LayersControl.Overlay name={nameDevPlans} key={isLoadedDevPlans} >             
+        <LayersControl.Overlay name={nameDevPlans} key={isLoadedDevPlans} checked>             
         <FeatureGroup name="Plany">
         {this.state.devPlansData
         ?
@@ -144,7 +139,7 @@ export default class Map extends Component {
         </FeatureGroup>
         </LayersControl.Overlay>
 
-        <LayersControl.Overlay name={nameSingle} key={isLoadedSingle} >
+        <LayersControl.Overlay name={nameSingle} key={isLoadedSingle} checked>
         <FeatureGroup name="Zabudowa jednorodzinna">
         {this.state.singleData
         ?
@@ -155,7 +150,7 @@ export default class Map extends Component {
         </FeatureGroup>
         </LayersControl.Overlay>
 
-        <LayersControl.Overlay name={nameMulti} key={isLoadedMulti} >
+        <LayersControl.Overlay name={nameMulti} key={isLoadedMulti} checked>
         <FeatureGroup name="Zabudowa wielorodzinna">
         {this.state.multiData
         ?
@@ -166,7 +161,7 @@ export default class Map extends Component {
         </FeatureGroup>
         </LayersControl.Overlay>
 
-        <LayersControl.Overlay name={nameMixed} key={isLoadedMixed} >
+        <LayersControl.Overlay name={nameMixed} key={isLoadedMixed} checked>
         <FeatureGroup name="Zabudowa jedno i wielorodzinna">
         {this.state.mixedData
         ?
@@ -192,7 +187,7 @@ class TerrainSingle extends Component {
     
     const singleRender = polygons.map( (polygon, index) => {
       return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="purple"/>
+        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#6B5B95" type="terrFunc"/>
       )
     })
     return(
@@ -212,7 +207,7 @@ class TerrainMulti extends Component {
     
     const multiRender = polygons.map( (polygon, index) => {
       return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="red"/>
+        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#FF6F61" type="terrFunc"/>
       )
     })
     return(
@@ -232,7 +227,7 @@ class TerrainMixed extends Component {
     
     const mixedRender = polygons.map( (polygon, index) => {
       return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="green"/>
+        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#3D9970" type="terrFunc"/>
       )
     })
     return(
@@ -243,31 +238,70 @@ class TerrainMixed extends Component {
   }
 }
 
+class LocalDevPlans extends Component {
+  constructor(props) {
+    super(props);
+  }
+ 
+  handlePolygonClick = (e) => {
+    //TODO
+  }
+
+  render() {
+    const polygons = this.props.data;
+
+    const polyRender = polygons.map( (polygon, index) => {
+      return(
+        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#2DD5C9" type="devPlan"/>
+      )
+    })
+
+    return(
+      <>
+        {polyRender};
+      </>
+    )
+  }
+}
+
 class PolygonWrapper extends Component {
   constructor(props) {
     super(props);
     this.polygonRef = React.createRef();
     this.state = {
-      clicked: null
+      popup: null
     }
   }
 
   handlePolygonClick = (e) => {
-      
+      //TODO
+  }
+    
+  render() {
+    let popup = null;
+
+    if(this.props.type == "terrFunc") {
+      popup = 
+      <ul className="popup">
+        <li><span>Typ zabudowy:</span> {this.props.polygonData.fun_nazwa}</li>
+        <li><span>Maksymalna wysokość:</span> {this.props.polygonData.max_wys} m</li>
+        <li><span>Liczba kondygnacji:</span> {this.props.polygonData.licz_kond}</li>
+        <li><span>Powierzchnia biologicznie czynna:</span> {this.props.polygonData.pow_bio} m<sup>2</sup></li>
+      </ul>
+    } 
+    else if(this.props.type == "devPlan") {
+      popup =
+      <ul className="popup">
+        <li><span>Nazwa planu:</span> {this.props.polygonData.nazwa_planu}</li>
+        <li><span>Typ planu:</span> {this.props.polygonData.typ_planu}</li>
+        <li><span>Dzielnica:</span> {this.props.polygonData.dzielnica}</li>
+      </ul>
     }
     
-
-  render() {
     return (
       <Polygon ref={this.polygonRef} positions={this.props.positions} polygonData={this.props.polygonData} color={this.props.color} >
-        
         <Popup closeOnEscapeKey={false}>
-        <ul className="popup">
-          <li>
-            <span>{this.props.polygonData.nazwa_planu}</span>
-            <span>{this.props.polygonData.fun_nazwa}</span>
-          </li>
-        </ul>
+          {popup}
         </Popup>
       </Polygon>
     )
