@@ -1,7 +1,7 @@
-import { Map as LeafletMap, TileLayer, Polygon, Marker, Popup, LayersControl, FeatureGroup, LayerGroup } from "react-leaflet";
+import { Map as LeafletMap, TileLayer, LayersControl, FeatureGroup, LayerGroup } from "react-leaflet";
 import React, {Component} from "react";
 import { mapBoxUrl } from "../credentials";
-
+import PolygonLayer from "./PolygonLayer";
 
 export default class Map extends Component {
   constructor(props) {
@@ -106,12 +106,12 @@ export default class Map extends Component {
   }
 
   render() {
-    
     const devPlansData = this.state.devPlansData ? this.filterPolygons(this.state.devPlansData) : null
     const multiData = this.state.multiData ? this.filterPolygons(this.state.multiData) : null
     const singleData = this.state.multiData ? this.filterPolygons(this.state.singleData) : null
     const mixedData = this.state.multiData ? this.filterPolygons(this.state.mixedData) : null
 
+    //TODO Refactor zeby nie uzywać tylu ifów
     const nameDevPlans = !this.state.devPlansData ? "<span class='layer loading'>Plany zagospodarowania</span> <span class='loader'></span>" : "<span class='layer'>Plany zagospodarowania</span>"
     const nameMulti = !this.state.multiData ? "<span class='layer loading'>Zabudowa wielorodzinna</span> <span class='loader'></span>" : "<span class='layer'>Zabudowa wielorodzinna</span>"
     const nameSingle = !this.state.singleData ? "<span class='layer loading'>Zabudowa jednorodzinna</span> <span class='loader'></span>" : "<span class='layer'>Zabudowa jednorodzinna</span>"
@@ -125,185 +125,56 @@ export default class Map extends Component {
     return (
       <>
       <LeafletMap onZoomEnd={this.handleZoom} onMoveEnd={this.handleMove} center={this.props.center} zoom={this.props.zoom} ref='map' >
-        <LayersControl position="topright" collapsed={false} >
+        <LayersControl position="topright" collapsed={false}>
             <TileLayer attribution='&amp;copy MapBox' url={mapBoxUrl} />
 
-        <LayersControl.Overlay name={nameDevPlans} key={isLoadedDevPlans} checked>             
-        <FeatureGroup name="Plany">
+        <LayersControl.Overlay name={nameDevPlans} key={isLoadedDevPlans} checked={true}>             
+        <FeatureGroup name="Zagospodarowanie przestrzenne">
         {this.state.devPlansData
         ?
-        <LocalDevPlans data={devPlansData} />
+        <PolygonLayer data={devPlansData} color="#2DD5C9" type="devPlan" />
         :
         null
         }
         </FeatureGroup>
         </LayersControl.Overlay>
 
-        <LayersControl.Overlay name={nameSingle} key={isLoadedSingle} checked>
+        <LayersControl.Overlay name={nameSingle} key={isLoadedSingle} checked={true}>
         <FeatureGroup name="Zabudowa jednorodzinna">
         {this.state.singleData
         ?
-        <TerrainSingle data={singleData} />
+        <PolygonLayer data={singleData} color="#6B5B95" type="terrFunc"/>
         :
         null
         }
         </FeatureGroup>
         </LayersControl.Overlay>
 
-        <LayersControl.Overlay name={nameMulti} key={isLoadedMulti} checked>
+        <LayersControl.Overlay name={nameMulti} key={isLoadedMulti} checked={true}>
         <FeatureGroup name="Zabudowa wielorodzinna">
         {this.state.multiData
         ?
-        <TerrainMulti data={multiData} />
+        <PolygonLayer data={multiData} color="#FF6F61" type="terrFunc"/>
         :
         null
         }
         </FeatureGroup>
         </LayersControl.Overlay>
 
-        <LayersControl.Overlay name={nameMixed} key={isLoadedMixed} checked>
+        <LayersControl.Overlay name={nameMixed} key={isLoadedMixed} checked={true}>
         <FeatureGroup name="Zabudowa jedno i wielorodzinna">
         {this.state.mixedData
         ?
-        <TerrainMixed data={mixedData} />
+        <PolygonLayer data={mixedData} color="#3D9970" type="terrFunc"/>
         :
         null
         }
         </FeatureGroup>
         </LayersControl.Overlay>
+
       </LayersControl>
       </LeafletMap>
       </>
-    )
-  }
-}
-
-class TerrainSingle extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const polygons = this.props.data;
-    
-    const singleRender = polygons.map( (polygon, index) => {
-      return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#6B5B95" type="terrFunc"/>
-      )
-    })
-    return(
-      <>
-        {singleRender}
-      </>
-    )
-  }
-}
-
-class TerrainMulti extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const polygons = this.props.data;
-    
-    const multiRender = polygons.map( (polygon, index) => {
-      return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#FF6F61" type="terrFunc"/>
-      )
-    })
-    return(
-      <>
-        {multiRender}
-      </>
-    )
-  }
-}
-
-class TerrainMixed extends Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    const polygons = this.props.data;
-    
-    const mixedRender = polygons.map( (polygon, index) => {
-      return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#3D9970" type="terrFunc"/>
-      )
-    })
-    return(
-      <>
-        {mixedRender}
-      </>
-    )
-  }
-}
-
-class LocalDevPlans extends Component {
-  constructor(props) {
-    super(props);
-  }
- 
-  handlePolygonClick = (e) => {
-    //TODO
-  }
-
-  render() {
-    const polygons = this.props.data;
-
-    const polyRender = polygons.map( (polygon, index) => {
-      return(
-        <PolygonWrapper key={index} positions={polygon.geometry.coordinates[0]} polygonData={polygon.properties} color="#2DD5C9" type="devPlan"/>
-      )
-    })
-
-    return(
-      <>
-        {polyRender};
-      </>
-    )
-  }
-}
-
-class PolygonWrapper extends Component {
-  constructor(props) {
-    super(props);
-    this.polygonRef = React.createRef();
-    this.state = {
-      popup: null
-    }
-  }
-
-  handlePolygonClick = (e) => {
-      //TODO
-  }
-    
-  render() {
-    let popup = null;
-
-    if(this.props.type == "terrFunc") {
-      popup = 
-      <ul className="popup">
-        <li><span>Typ zabudowy:</span> {this.props.polygonData.fun_nazwa}</li>
-        <li><span>Maksymalna wysokość:</span> {this.props.polygonData.max_wys} m</li>
-        <li><span>Liczba kondygnacji:</span> {this.props.polygonData.licz_kond}</li>
-        <li><span>Powierzchnia biologicznie czynna:</span> {this.props.polygonData.pow_bio} m<sup>2</sup></li>
-      </ul>
-    } 
-    else if(this.props.type == "devPlan") {
-      popup =
-      <ul className="popup">
-        <li><span>Nazwa planu:</span> {this.props.polygonData.nazwa_planu}</li>
-        <li><span>Typ planu:</span> {this.props.polygonData.typ_planu}</li>
-        <li><span>Dzielnica:</span> {this.props.polygonData.dzielnica}</li>
-      </ul>
-    }
-    
-    return (
-      <Polygon ref={this.polygonRef} positions={this.props.positions} polygonData={this.props.polygonData} color={this.props.color} >
-        <Popup closeOnEscapeKey={false}>
-          {popup}
-        </Popup>
-      </Polygon>
     )
   }
 }
