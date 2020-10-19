@@ -2,6 +2,10 @@
 
 Map application which purpose is to display data pertaining to spatial planning and land use on thematic layers, including different types of development plans.
 
+## Live demo
+
+Live demo available: https://map-app-22c5a.web.app/
+
 # Completed features
 * Spatial objects in GeoJSON fetching via API calls
 * Layer visibility toggle switches
