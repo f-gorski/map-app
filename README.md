@@ -1,24 +1,27 @@
-# map-app - aplikacja mapy tematycznej danych o nieruchomościach
+# map-app - thematic map of spatial planning data of Warsaw
 
-Aplikacja mapowa słuząca do wyświetlania danych związanych z nieruchomościami na danym obszarze
+Map application which purpose is to display data pertaining to spatial planning and land use on thematic layers, including different types of development plans.
 
-# Gotowe funkcjonalności
-* ---
+# Completed features
+* Spatial objects in GeoJSON fetching via API calls
+* Layer visibility toggle switches
+* Tooltips display when clicked on each marked area of the map
 
 ## To-do
-* utworzenie struktury projektu
-* zainstalowanie wymaganych bibliotek i zapisanie do package.json
+* Increase loading speeds by downloading the data to own backend periodically to facilitate making optimized API calls, i.e only fetch data from the particular area instead of whole dataset
+* Widen the dataset by fetching broader seta of thematic layers from different APIs 
 
-## Technologie
+## Technologies
 * HTML5
-* Sass
-* ES6
+* CSS/Sass
+* Javascript ES6
 * React
 * Webpack
 * Leaflet
 
-## Instalacja
-Przy zainstalowanym npm, należy pobrać repozytorium i zainstalować wykorzystywane biblioteki komendą
+## Installation
+
+To install, you need to clone the repository and install all used packages using the command:
 
 ```
 npm install
