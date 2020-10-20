@@ -1,5 +1,11 @@
 ### Node ###
 
+# Build
+.firebase/
+.firebaserc
+firebase.json
+build/
+
 # Api credentials
 credentials.js
 

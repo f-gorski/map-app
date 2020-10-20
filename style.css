@@ -55,6 +55,7 @@
     color: grey;
 }
 
+
 .leaflet-control-zoom {
     box-shadow: none;
     border-radius: 5px;
@@ -69,7 +70,8 @@ div.leaflet-bar a.leaflet-control-zoom-out {
     background-color: white;
     line-height: 50px;
     font-size: 2em;
-    box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);  
+    box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);
+    
 }
 
 .loader {
@@ -80,23 +82,27 @@ div.leaflet-bar a.leaflet-control-zoom-out {
     width: 1.5em;
     height: 1.5em;
     animation: spin 1.5s linear infinite;
-}
+  }
   
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
+  }
 
-.leaflet-top .leaflet-control-layers input[type="checkbox"] {
-    cursor: pointer;
-    position: relative;
-    width: 50px;
-    height: 20px;
-    -webkit-appearance: none;
-    outline: none;
-    background: #c6c6c6;
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+  .leaflet-top .leaflet-control-layers input[type="checkbox"] {
+      cursor: pointer;
+      position: relative;
+      width: 50px;
+      height: 20px;
+      -webkit-appearance: none;
+      outline: none;
+      background: #c6c6c6;
+      border-radius: 20px;
+      box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+  }
+
+.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(1) input:checked[type="checkbox"] {
+    background: #2DD5C9;
 }
 
 .leaflet-top .leaflet-control-layers-overlays label:nth-of-type(2) input:checked[type="checkbox"] {
@@ -108,12 +114,10 @@ div.leaflet-bar a.leaflet-control-zoom-out {
 }
 
 .leaflet-top .leaflet-control-layers-overlays label:nth-of-type(4) input:checked[type="checkbox"] {
-    background: #3D9970;
+    background: #3D9970
+    ;
 }
 
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(1) input:checked[type="checkbox"] {
-    background: #2DD5C9;
-}
 
 .leaflet-top .leaflet-control-layers input[type="checkbox"]:before {
     content: '';

@@ -6,10 +6,6 @@ import PolygonWrapper from "./PolygonWrapper"
     constructor(props) {
       super(props);
     }
-   
-    handlePolygonClick = (e) => {
-      //TODO
-    }
   
     render() {
       const polygons = this.props.data;
