@@ -71,7 +71,6 @@ div.leaflet-bar a.leaflet-control-zoom-out {
     line-height: 50px;
     font-size: 2em;
     box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);
-    
 }
 
 .loader {
@@ -89,17 +88,17 @@ div.leaflet-bar a.leaflet-control-zoom-out {
     100% { transform: rotate(360deg); }
   }
 
-  .leaflet-top .leaflet-control-layers input[type="checkbox"] {
-      cursor: pointer;
-      position: relative;
-      width: 50px;
-      height: 20px;
-      -webkit-appearance: none;
-      outline: none;
-      background: #c6c6c6;
-      border-radius: 20px;
-      box-shadow: inset 0 0 5px rgba(0,0,0,.2);
-  }
+.leaflet-top .leaflet-control-layers input[type="checkbox"] {
+    cursor: pointer;
+    position: relative;
+    width: 50px;
+    height: 20px;
+    -webkit-appearance: none;
+    outline: none;
+    background: #c6c6c6;
+    border-radius: 20px;
+    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+}
 
 .leaflet-top .leaflet-control-layers-overlays label:nth-of-type(1) input:checked[type="checkbox"] {
     background: #2DD5C9;
@@ -117,7 +116,6 @@ div.leaflet-bar a.leaflet-control-zoom-out {
     background: #3D9970
     ;
 }
-
 
 .leaflet-top .leaflet-control-layers input[type="checkbox"]:before {
     content: '';

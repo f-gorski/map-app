@@ -1,11 +1,15 @@
-import { Map as LeafletMap, TileLayer, LayersControl, FeatureGroup, LayerGroup } from "react-leaflet";
+import { Map as LeafletMap, TileLayer, LayersControl, FeatureGroup } from "react-leaflet";
 import React, { Component } from "react";
 import { mapBoxUrl } from "../Mapbox/credentials";
 import PolygonLayer from "./PolygonLayer";
+import { filterPolygons } from "../utilities/filterPolygons";
+import { assignControlName } from "../utilities/assignControlName";
 
 export default class Map extends Component {
   constructor(props) {
     super(props);
+
+    this.map = React.createRef();
 
     this.state = {
       devPlansData: null,
@@ -16,44 +20,30 @@ export default class Map extends Component {
     }
   }
 
-  filterPolygons = (data) => {
-
-    let bounds = this.state.mapBounds;
-
-    const filteredPolygons = data.filter((polygon) => {
-      return polygon.geometry.coordinates[0].some((coordLatLong) => {
-        return (
-          bounds._southWest.lat < coordLatLong[0] &&
-          coordLatLong[0] < bounds._northEast.lat &&
-          bounds._southWest.lng < coordLatLong[1] &&
-          coordLatLong[1] < bounds._northEast.lng
-        )
-      })
-    });
-
-    return filteredPolygons;
-  }
-
   handleZoom = (e) => {
     this.setState({
-      mapBounds: this.refs.map.leafletElement.getBounds()
+      mapBounds: this.map.curent.leafletElement.getBounds()
     })
   }
 
   handleMove = (e) => {
     this.setState({
-      mapBounds: this.refs.map.leafletElement.getBounds()
+      mapBounds: this.map.current.leafletElement.getBounds()
     })
   }
 
   componentDidMount() {
     this.setState({
-      mapBounds: this.refs.map.leafletElement.getBounds()
+      mapBounds: this.map.current.leafletElement.getBounds()
     })
 
-    const proxyURL = "https://cors-anywhere.herokuapp.com/";
-    const devPlansURL = "https://mapa.um.warszawa.pl/WebServices/ZasiegiPlanow/wgs84/findAll/";
-    fetch(proxyURL + devPlansURL)
+    //Proxy to allow CORS because API unfortunately does not provide required header
+    const PROXY_URL = "https://cors-anywhere.herokuapp.com/";
+    const DEVPLANS_URL = "https://mapa.um.warszawa.pl/WebServices/ZasiegiPlanow/wgs84/findAll/";
+    const TERRAINFUNCTION_URL = "http://mapa.um.warszawa.pl/WebServices/PrzeznaczenieTerenow/wgs84/findByFunName/zabudowa";
+
+    //Fetch development layer data
+    fetch(PROXY_URL + DEVPLANS_URL)
       .then(result => result.json())
       .then(devPlans => {
         devPlans.features.forEach((feature) => {
@@ -68,10 +58,11 @@ export default class Map extends Component {
       })
       .catch(() => alert("Błąd przy wczytywaniu danych o planach zagospodarowania"));
 
-    const terrainFunctionURL = "http://mapa.um.warszawa.pl/WebServices/PrzeznaczenieTerenow/wgs84/findByFunName/zabudowa"
-    fetch(proxyURL + terrainFunctionURL)
+    //Fetch terrain function layer data
+    fetch(PROXY_URL + TERRAINFUNCTION_URL)
       .then(result => result.json())
       .then(terrFunc => {
+        //Coordinates are in inappropiate format, required to reverse each XY pair for each point in each feature
         terrFunc.features.forEach((feature) => {
           feature.geometry.coordinates[0].forEach((coordXY) => {
             coordXY.reverse()
@@ -100,72 +91,72 @@ export default class Map extends Component {
   }
 
   render() {
-    const devPlansData = this.state.devPlansData ? this.filterPolygons(this.state.devPlansData) : null
-    const multiData = this.state.multiData ? this.filterPolygons(this.state.multiData) : null
-    const singleData = this.state.multiData ? this.filterPolygons(this.state.singleData) : null
-    const mixedData = this.state.multiData ? this.filterPolygons(this.state.mixedData) : null
+    const { devPlansData, multiData, singleData, mixedData, mapBounds } = this.state;
 
+    //Filter polygons so only the ones that are within current mapBounds are to be rendered
+    const filteredDevPlansData = devPlansData && filterPolygons(devPlansData, mapBounds)
+    const filteredMultiData = multiData && filterPolygons(multiData, mapBounds)
+    const filteredSingleData = singleData && filterPolygons(singleData, mapBounds)
+    const filteredMixedData = mixedData && filterPolygons(mixedData, mapBounds)
 
-
-    //TODO Refactor 
-    const nameDevPlans = !this.state.devPlansData ? "<span class='layer loading'>Plany zagospodarowania</span> <span class='loader'></span>" : "<span class='layer'>Plany zagospodarowania</span>"
-    const nameMulti = !this.state.multiData ? "<span class='layer loading'>Zabudowa wielorodzinna</span> <span class='loader'></span>" : "<span class='layer'>Zabudowa wielorodzinna</span>"
-    const nameSingle = !this.state.singleData ? "<span class='layer loading'>Zabudowa jednorodzinna</span> <span class='loader'></span>" : "<span class='layer'>Zabudowa jednorodzinna</span>"
-    const nameMixed = !this.state.mixedData ? "<span class='layer loading'>Zabudowa jedno i wielorodzinna</span> <span class='loader'></span>" : "<span class='layer'>Zabudowa jedno i wielorodzinna</span>"
+    //react-leaflet LayersControl.Overlay component requires name prop as a string containing
+    //HTML element with its content, classes etc. This is the reason behind this assignment below
+    const nameDevPlans = assignControlName(devPlansData, "Plany zagospodarowania")
+    const nameMulti = assignControlName(multiData, "Zabudowa wielorodzinna")
+    const nameSingle = assignControlName(singleData, "Zabudowa jednorodzinna")
+    const nameMixed = assignControlName(mixedData, "Zabudowa jedno i wielorodzinna")
 
     return (
-      <>
-        <LeafletMap onZoomEnd={this.handleZoom} onMoveEnd={this.handleMove} center={this.props.center} zoom={this.props.zoom} ref='map' >
-          <LayersControl position="topright" collapsed={false}>
-            <TileLayer attribution='&amp;copy MapBox' url={mapBoxUrl} />
+      <LeafletMap onZoomEnd={this.handleZoom} onMoveEnd={this.handleMove} center={this.props.center} zoom={this.props.zoom} ref={this.map} >
+        <LayersControl position="topright" collapsed={false}>
+          <TileLayer attribution='&amp;copy MapBox' url={mapBoxUrl} />
 
-            <LayersControl.Overlay name={nameDevPlans} key={nameDevPlans} checked={true}>
-              <FeatureGroup name="Zagospodarowanie przestrzenne">
-                {this.state.devPlansData
-                  ?
-                  <PolygonLayer data={devPlansData} color="#2DD5C9" type="devPlan" />
-                  :
-                  null
-                }
-              </FeatureGroup>
-            </LayersControl.Overlay>
+          <LayersControl.Overlay name={nameDevPlans} key={nameDevPlans} checked={true}>
+            <FeatureGroup name="Zagospodarowanie przestrzenne">
+              {this.state.devPlansData
+                ?
+                <PolygonLayer data={filteredDevPlansData} color="#2DD5C9" type="devPlan" />
+                :
+                null
+              }
+            </FeatureGroup>
+          </LayersControl.Overlay>
 
-            <LayersControl.Overlay name={nameSingle} key={nameSingle} checked={true}>
-              <FeatureGroup name="Zabudowa jednorodzinna">
-                {this.state.singleData
-                  ?
-                  <PolygonLayer data={singleData} color="#6B5B95" type="terrFunc" />
-                  :
-                  null
-                }
-              </FeatureGroup>
-            </LayersControl.Overlay>
+          <LayersControl.Overlay name={nameSingle} key={nameSingle} checked={true}>
+            <FeatureGroup name="Zabudowa jednorodzinna">
+              {this.state.singleData
+                ?
+                <PolygonLayer data={filteredSingleData} color="#6B5B95" type="terrFunc" />
+                :
+                null
+              }
+            </FeatureGroup>
+          </LayersControl.Overlay>
 
-            <LayersControl.Overlay name={nameMulti} key={nameMulti} checked={true}>
-              <FeatureGroup name="Zabudowa wielorodzinna">
-                {this.state.multiData
-                  ?
-                  <PolygonLayer data={multiData} color="#FF6F61" type="terrFunc" />
-                  :
-                  null
-                }
-              </FeatureGroup>
-            </LayersControl.Overlay>
+          <LayersControl.Overlay name={nameMulti} key={nameMulti} checked={true}>
+            <FeatureGroup name="Zabudowa wielorodzinna">
+              {this.state.multiData
+                ?
+                <PolygonLayer data={filteredMultiData} color="#FF6F61" type="terrFunc" />
+                :
+                null
+              }
+            </FeatureGroup>
+          </LayersControl.Overlay>
 
-            <LayersControl.Overlay name={nameMixed} key={nameMixed} checked={true}>
-              <FeatureGroup name="Zabudowa jedno i wielorodzinna">
-                {this.state.mixedData
-                  ?
-                  <PolygonLayer data={mixedData} color="#3D9970" type="terrFunc" />
-                  :
-                  null
-                }
-              </FeatureGroup>
-            </LayersControl.Overlay>
+          <LayersControl.Overlay name={nameMixed} key={nameMixed} checked={true}>
+            <FeatureGroup name="Zabudowa jedno i wielorodzinna">
+              {this.state.mixedData
+                ?
+                <PolygonLayer data={filteredMixedData} color="#3D9970" type="terrFunc" />
+                :
+                null
+              }
+            </FeatureGroup>
+          </LayersControl.Overlay>
 
-          </LayersControl>
-        </LeafletMap>
-      </>
+        </LayersControl>
+      </LeafletMap>
     )
   }
 }
