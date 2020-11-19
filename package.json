@@ -25,7 +25,12 @@
     "@babel/preset-env": "^7.4.1",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
-    "webpack": "^4.29.6",
+    "css-loader": "^5.0.1",
+    "node-sass": "^5.0.0",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.1.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^4.44.2",
     "webpack-cli": "^3.3.0",
     "webpack-dev-server": "^3.2.1"
   },
@@ -37,4 +42,3 @@
     "react-router-dom": "^5.1.2"
   }
 }
-

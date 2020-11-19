@@ -1,12 +1,12 @@
 const path = require("path")
-const entryPath = "js/";
-const entryFile = "app.js";
+const entryPath = "src/";
+const entryFile = "App.js";
 
 module.exports = {
   entry: `./${entryPath}${entryFile}`,
   output: {
     filename: "out.js",
-    path: path.resolve(__dirname, `${entryPath}/build`)
+    path: path.resolve(__dirname, `/build`)
   },
   devServer: {
     contentBase: path.__dirname,
@@ -20,7 +20,17 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        use: [
+         "babel-loader",
+        ]
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          "sass-loader",
+        ]
       }
     ]
   }
