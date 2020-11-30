@@ -22,7 +22,7 @@ export default class Map extends Component {
 
   handleZoom = (e) => {
     this.setState({
-      mapBounds: this.map.curent.leafletElement.getBounds()
+      mapBounds: this.map.current.leafletElement.getBounds()
     })
   }
 

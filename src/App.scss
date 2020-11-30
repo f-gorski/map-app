@@ -1,3 +1,17 @@
-@import './scss/Landing';
+@import './scss/settings/colors';
+@import './scss/settings/fonts';
+@import './scss/settings/base';
+
+@import './scss/LandingPage/Landing_380';
+@import './scss/Navigation/Navigation_380';
+@import './scss/Burger.scss';
 @import './scss/Map';
 
+@media screen and (min-width: 768px) {
+    @import './scss/LandingPage/Landing_768';
+    @import './scss/Navigation/Navigation_768';
+}
+  
+  @media screen and (min-width: 1024px) {
+    @import './scss/LandingPage/Landing_1024';;
+  }
