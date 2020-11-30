@@ -1,0 +1,54 @@
+.burger {
+    position: absolute;
+    top: 5%;
+    left: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2rem;
+    height: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 20;
+    
+    &:focus {
+      outline: none;
+    }
+
+    &--open {
+      .burger__line {
+
+        &-top {
+          transform: rotate(45deg);
+        }
+  
+        &-mid {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+  
+        &-bottom {
+          transform: rotate(-45deg);
+        }
+      }
+    }
+    
+    &__line {
+      width: 2rem;
+      height: 0.25rem;
+      border-radius: 10px;
+      transition: all 0.3s linear;
+      position: relative;
+      transform-origin: 1px;
+      background-color: $font-secondary-color;
+    }
+    
+    @media screen and (min-width: 768px) {
+      display: none;
+    }
+} 
+
+
+   

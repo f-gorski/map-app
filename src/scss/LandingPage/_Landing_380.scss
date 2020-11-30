@@ -1,0 +1,51 @@
+  
+.landing-page {
+    padding: 0 1.5em;
+
+    .container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-items: center;
+    }
+        &__header {
+           margin-top: 175px;
+           color: $font-primary-color;
+        }
+    
+        &__cta-header {
+           margin-top: 75px;
+           color: $font-secondary-color;
+        }
+    
+        &__cta-subheader {
+            color: $font-primary-color;
+        }
+    
+        &__cta-link {
+            display: block;
+            text-decoration: none;
+            border: 4px solid $font-primary-color;
+            border-radius: 50px;
+            color: $font-primary-color;
+            font-size: 1.5em;
+            padding: 1em 1.3em;
+            width: 250px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 65px auto 250px;
+        }
+    
+        &__img {
+            background-image: url('./assets/map-img-sm.png');
+            background-size: cover;
+            width: 100%;
+            height: 35vh;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+        } 
+}
+

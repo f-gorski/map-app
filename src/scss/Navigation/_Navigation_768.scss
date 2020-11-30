@@ -1,0 +1,31 @@
+.navigation {
+    width: 400px;
+    margin: 0px 0;
+    position: static;
+    background: none;
+    transform: translateX(0%);
+
+    &__container {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    &__link-list {
+        margin-right: auto;
+        list-style: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+
+    &__link {
+        text-decoration: none;
+        color: $font-primary-color;
+        font-size: 20px;
+
+        &--active {
+            border-bottom: solid 2px $font-secondary-color;
+        }
+    }
+}

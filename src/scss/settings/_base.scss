@@ -1,0 +1,16 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    background-color: $bg-color;
+    position: relative;
+}
+
+#app {
+    width: 100%;
+    min-height: 100vh;
+}
