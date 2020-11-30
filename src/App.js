@@ -7,15 +7,6 @@ import Navigation from "./components/Navigation";
 import './App.scss';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      lat: 52.23235,
-      lng: 21.00412,
-      zoom: 13,
-      data: false
-    }
-  }
 
   render() {
     return (
@@ -30,7 +21,7 @@ class App extends Component {
           </Route>
 
           <Route path="/mapa">
-            <Map center={this.state.lat, this.state.lng} zoom={this.state.zoom} data={this.state.data} />
+            
           </Route>
 
         </Switch>
