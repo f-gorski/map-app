@@ -1,0 +1,45 @@
+@import url(https://unpkg.com/ol-layerswitcher@3.8.1/dist/ol-layerswitcher.css);
+
+.map {
+    width: 100vw;
+    height: 100vh;
+
+    .ol-control {
+        background-color: red;
+    }
+
+    .ol-zoom {
+        float: right;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &-in {
+            height: 40px;
+            width: 40px;
+            margin: 10px;
+            border-radius: 50%;
+            background-color: rgb(243, 242, 242);
+            border: 1px solid rgb(167, 165, 165);
+        }
+
+        &-out {
+            @extend .ol-zoom-in;
+        }
+    }
+
+    .layer-switcher {
+        height: 150px;
+        width: 150px;
+        top: 12em;
+        right: 0.5em;
+
+        button {
+            height: 50px;
+            width: 50px;
+        }
+    }
+}

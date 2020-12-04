@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "ol": "^6.4.3",
+    "ol-layerswitcher": "^3.8.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-router-dom": "^5.2.0"

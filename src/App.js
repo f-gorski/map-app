@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter, Switch, Route } from 'react-router-dom';
-import Map from "./components/Map";
+import Map from "./components/Map/Map";
 import LandingPage from "./components/LandingPage";
 import Navigation from "./components/Navigation";
 import './App.scss';
@@ -21,7 +21,7 @@ class App extends Component {
           </Route>
 
           <Route path="/mapa">
-            
+            <Map />
           </Route>
 
         </Switch>
