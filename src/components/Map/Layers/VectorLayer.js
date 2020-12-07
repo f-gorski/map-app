@@ -4,7 +4,7 @@ import MapContext from '../MapContext';
 
 const VectorLayer = ({ source, style, zIndex = 0 }) => {
     const { map } = useContext(MapContext);
-
+    
     //Mount vector layer
     useEffect(() => {
         if (!map) {
@@ -24,7 +24,7 @@ const VectorLayer = ({ source, style, zIndex = 0 }) => {
             }
         }
     }, [map])
-
+    console.log(map);
     return null;
 }
 

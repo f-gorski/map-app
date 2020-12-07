@@ -35,11 +35,11 @@ const MapProvider = ({ children, zoom, center }) => {
         if (!map) {
             return;
         }
-        map.getView.setCenter(center);
+        map.getView().setCenter(center);
     }, [center]);
 
     return (
-        <MapContext.Provider value={{map}}>
+        <MapContext.Provider value={{ map }}>
             <div ref={mapRef} className="map">
                 {children}
             </div>
