@@ -1,132 +1,45 @@
-@import 'https://unpkg.com/leaflet@1.6.0/dist/leaflet.css';
+@import url(https://unpkg.com/ol-layerswitcher@3.8.1/dist/ol-layerswitcher.css);
 
-.leaflet-container {
-    width: 100%;
-    height: 100%;
+.map {
+    width: 100vw;
+    height: 100vh;
+
+    .ol-control {
+        background-color: red;
+    }
+
+    .ol-zoom {
+        float: right;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &-in {
+            height: 40px;
+            width: 40px;
+            margin: 10px;
+            border-radius: 50%;
+            background-color: rgb(243, 242, 242);
+            border: 1px solid rgb(167, 165, 165);
+        }
+
+        &-out {
+            @extend .ol-zoom-in;
+        }
+    }
+
+    .layer-switcher {
+        height: 150px;
+        width: 150px;
+        top: 12em;
+        right: 0.5em;
+
+        button {
+            height: 50px;
+            width: 50px;
+        }
+    }
 }
-
-.popup {
-    list-style: none;
-    font-size: 1.2em;
-}
-
-.popup span {
-    font-weight: bold;
-    text-align: center;
-}
-
-.leaflet-top .leaflet-control-layers {
-    margin-top: 25px;
-    margin-right: 15px;
-    width: 220px;
-    height: 370px;
-    font-size: 1.5em;
-    box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);
-}
-
-.leaflet-top .leaflet-control-layers div span {
-    display: flex;
-}
-
-.leaflet-top .leaflet-control-layers div span {
-    display: flex;
-}
-
-.leaflet-top .leaflet-control-layers .loader {
-    margin: 0 auto;
-}
-
-.leaflet-top .leaflet-control-layers .layer {
-    width: 50%;
-    margin-right: 30px;
-}
-
-.leaflet-top .leaflet-control-layers .loading {
-    color: grey;
-}
-
-
-.leaflet-control-zoom {
-    box-shadow: none;
-    border-radius: 5px;
-}
-
-div.leaflet-bar a.leaflet-control-zoom-in,
-div.leaflet-bar a.leaflet-control-zoom-out {
-    border-radius: 50%;
-    margin: 15px;
-    width: 50px;
-    height: 50px;
-    background-color: white;
-    line-height: 50px;
-    font-size: 2em;
-    box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);
-}
-
-.loader {
-    float: right;
-    border: 3px solid #f3f3f3; /* Light grey */
-    border-top: 3px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 1.5em;
-    height: 1.5em;
-    animation: spin 1.5s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-.leaflet-top .leaflet-control-layers input[type="checkbox"] {
-    cursor: pointer;
-    position: relative;
-    width: 50px;
-    height: 20px;
-    -webkit-appearance: none;
-    outline: none;
-    background: #c6c6c6;
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(1) input:checked[type="checkbox"] {
-    background: #2DD5C9;
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(2) input:checked[type="checkbox"] {
-    background: #6B5B95;
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(3) input:checked[type="checkbox"] {
-    background: #FF6F61;
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(4) input:checked[type="checkbox"] {
-    background: #3D9970
-    ;
-}
-
-.leaflet-top .leaflet-control-layers input[type="checkbox"]:before {
-    content: '';
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    top: 0;
-    left: 0;
-    background: #fff;
-    transition: .5s;
-    box-shadow: 0 2px 5px rgba(0,0,0,.2);
-}
-
-.leaflet-top .leaflet-control-layers input:checked[type="checkbox"]:before {
-    left: 30px;
-}
-
-
-
-
-
-
-  
