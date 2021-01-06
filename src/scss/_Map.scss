@@ -1,4 +1,3 @@
-@import url(https://unpkg.com/ol-layerswitcher@3.8.1/dist/ol-layerswitcher.css);
 
 .map {
     width: 100vw;
@@ -30,16 +29,61 @@
             @extend .ol-zoom-in;
         }
     }
+}
 
-    .layer-switcher {
-        height: 150px;
-        width: 150px;
-        top: 12em;
-        right: 0.5em;
+.layer-switcher {
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    top: 12em;
+    right: 0.5em;
+    background-color: #f3f3f3;
+    
+    .loader {
+        float: right;
+        border: 3px solid #f3f3f3; /* Light grey */
+        border-top: 3px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 1.5em;
+        height: 1.5em;
+        animation: spin 1.5s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
-        button {
-            height: 50px;
-            width: 50px;
-        }
+    .toggle-switch {
+        cursor: pointer;
+        position: relative;
+        width: 50px;
+        height: 20px;
+        -webkit-appearance: none;
+        outline: none;
+        background: #c6c6c6;
+        border-radius: 20px;
+        box-shadow: inset 0 0 5px rgba(0,0,0,.2);
+    }
+    
+    .toggle-switch:checked {
+        background: #2DD5C9;
+    }
+    
+    .toggle-switch:before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        top: 0;
+        left: 0;
+        background: #fff;
+        transition: .5s;
+        box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    }
+    
+    .toggle-switch:checked:before {
+        left: 30px;
     }
 }
