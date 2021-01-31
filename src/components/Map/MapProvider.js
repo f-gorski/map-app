@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as OL from 'ol';
 import MapContext from './MapContext';
 
-const MapProvider = ({ children, zoom, center }) => {
+const MapProvider = ({ children, zoom, center, setCenter }) => {
     const mapRef = useRef();
     const [map, setMap] = useState(null);
 
@@ -36,6 +36,7 @@ const MapProvider = ({ children, zoom, center }) => {
             return;
         }
         map.getView().setCenter(center);
+        setCenter(center);
     }, [center]);
 
     return (
