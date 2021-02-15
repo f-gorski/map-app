@@ -1,7 +1,7 @@
 .navigation {
     width: 400px;
     margin: 0px 0;
-    position: static;
+    position: relative;
     background: none;
     transform: translateX(0%);
 
@@ -17,6 +17,11 @@
         flex-direction: row;
         justify-content: space-between;
         flex-grow: 1;
+        padding: 1em 0;
+    }
+
+    &__link-item {
+        margin-top: 0;
     }
 
     &__link {
@@ -28,4 +33,11 @@
             border-bottom: solid 2px $font-secondary-color;
         }
     }
+}
+
+.header--map {
+    width: 100%;
+    box-shadow: 1px 1px 5px black;
+    position: relative;
+    z-index: 10;
 }
