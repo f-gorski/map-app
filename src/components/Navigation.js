@@ -1,11 +1,14 @@
 import React, {useState} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import Burger from './Menu/Burger';
 
 const Navigation = () => {
     const [isOpen, setOpen] = useState(false);
+    const location = useLocation();
+    
     return (
-        <header>
+        <header className={location.pathname === "/mapa" ? "header--map" : "header"}>
+            {console.log(location)}
             <div className="navigation__container">
                 <Burger isOpen={isOpen} setOpen={setOpen}/>
                 <nav className={isOpen ? "navigation navigation--open" : "navigation"}>

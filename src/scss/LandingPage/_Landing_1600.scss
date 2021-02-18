@@ -1,0 +1,24 @@
+
+.landing-page {
+
+    &__header {
+        font-size: 7rem;
+        margin-top: 0;
+    }
+    
+    &__cta-header {
+        font-size: 3.8rem;
+        margin-top: 50px;
+    }
+    
+    &__cta-subheader {
+        font-size: 3.2rem;
+    }
+    
+    &__cta-link {
+        font-size: 3rem;
+        padding: 2rem 2.6rem;
+        border-width: 5px;
+    }
+}
+

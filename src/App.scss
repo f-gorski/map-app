@@ -12,6 +12,7 @@
     @import './scss/Navigation/Navigation_768';
 }
   
-  @media screen and (min-width: 1024px) {
-    @import './scss/LandingPage/Landing_1024';;
+  @media screen and (min-width: 1600px) {
+    @import './scss/LandingPage/Landing_1600';
+    @import './scss/Navigation/Navigation_1600';
   }
