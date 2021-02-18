@@ -17,7 +17,8 @@ const LandingPage = () => {
                     </h3>
                     <Link to="/map" className="landing-page__cta-link">OTWÓRZ MAPĘ</Link>
                 </div>
-                <div className="landing-page__img"></div>
+
+                <img src={require('../assets/map-blob.png').default} className="landing-page__img" />
             </main>
         </>
     )

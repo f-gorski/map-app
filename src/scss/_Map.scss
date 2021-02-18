@@ -1,132 +1,142 @@
-@import 'https://unpkg.com/leaflet@1.6.0/dist/leaflet.css';
 
-.leaflet-container {
+.map {
+    height: 100vh;
     width: 100%;
-    height: 100%;
+
+    .ol-control {
+    }
+
+    .ol-zoom {
+        float: right;
+        width: 150px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &-in,
+        &-out {
+            height: 40px;
+            width: 40px;
+            margin: 10px;
+            border-radius: 50%;
+            background-color: rgb(243, 242, 242);
+            border: 1px solid rgb(167, 165, 165);
+            box-shadow: 0 0 5px rgb(158, 158, 158);
+            cursor: pointer;
+            outline: none;
+        }
+    }
 }
 
-.popup {
-    list-style: none;
-    font-size: 1.2em;
-}
-
-.popup span {
-    font-weight: bold;
-    text-align: center;
-}
-
-.leaflet-top .leaflet-control-layers {
-    margin-top: 25px;
-    margin-right: 15px;
-    width: 220px;
-    height: 370px;
-    font-size: 1.5em;
-    box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);
-}
-
-.leaflet-top .leaflet-control-layers div span {
-    display: flex;
-}
-
-.leaflet-top .leaflet-control-layers div span {
-    display: flex;
-}
-
-.leaflet-top .leaflet-control-layers .loader {
-    margin: 0 auto;
-}
-
-.leaflet-top .leaflet-control-layers .layer {
-    width: 50%;
-    margin-right: 30px;
-}
-
-.leaflet-top .leaflet-control-layers .loading {
-    color: grey;
-}
-
-
-.leaflet-control-zoom {
-    box-shadow: none;
-    border-radius: 5px;
-}
-
-div.leaflet-bar a.leaflet-control-zoom-in,
-div.leaflet-bar a.leaflet-control-zoom-out {
-    border-radius: 50%;
-    margin: 15px;
-    width: 50px;
-    height: 50px;
-    background-color: white;
-    line-height: 50px;
-    font-size: 2em;
-    box-shadow: 9px 9px 16px rgb(0,0,0,0.4), -9px -9px 16px  rgba(255,255,255,0.6);
-}
-
-.loader {
-    float: right;
-    border: 3px solid #f3f3f3; /* Light grey */
-    border-top: 3px solid #3498db; /* Blue */
-    border-radius: 50%;
-    width: 1.5em;
-    height: 1.5em;
-    animation: spin 1.5s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-
-.leaflet-top .leaflet-control-layers input[type="checkbox"] {
-    cursor: pointer;
-    position: relative;
-    width: 50px;
-    height: 20px;
-    -webkit-appearance: none;
-    outline: none;
-    background: #c6c6c6;
-    border-radius: 20px;
-    box-shadow: inset 0 0 5px rgba(0,0,0,.2);
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(1) input:checked[type="checkbox"] {
-    background: #2DD5C9;
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(2) input:checked[type="checkbox"] {
-    background: #6B5B95;
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(3) input:checked[type="checkbox"] {
-    background: #FF6F61;
-}
-
-.leaflet-top .leaflet-control-layers-overlays label:nth-of-type(4) input:checked[type="checkbox"] {
-    background: #3D9970
-    ;
-}
-
-.leaflet-top .leaflet-control-layers input[type="checkbox"]:before {
-    content: '';
+.layer-switcher {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    top: 0;
-    left: 0;
-    background: #fff;
-    transition: .5s;
-    box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    top: 30%;
+    right: 2%;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    background-color: #f3f3f3;
+    box-shadow: 0 0 4px rgb(158, 158, 158);
+    
+    .loader {
+        float: right;
+        border: 3px solid #f3f3f3; /* Light grey */
+        border-top: 3px solid #3498db; /* Blue */
+        border-radius: 50%;
+        width: 1.5em;
+        height: 1.5em;
+        animation: spin 1.5s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
+    .toggle-switch {
+        cursor: pointer;
+        position: relative;
+        width: 50px;
+        height: 20px;
+        -webkit-appearance: none;
+        outline: none;
+        background: #c6c6c6;
+        border-radius: 20px;
+        box-shadow: inset 0 0 4px rgb(221, 221, 221);
+
+        &:not(:nth-of-type(1)) {
+            margin-top: 0.9em;
+        }
+    }
+
+    .toggle-switch:nth-of-type(1):checked {
+        background-color: rgb(45, 213, 201);
+    }
+
+    .toggle-switch:nth-of-type(2):checked {
+        background-color: rgb(107, 91, 149);
+    }
+
+    .toggle-switch:nth-of-type(3):checked {
+        background-color:rgb(255, 111, 97);
+    }
+
+    .toggle-switch:nth-of-type(4):checked {
+        background-color: rgb(61, 153, 112);
+    }
+    
+    .toggle-switch:before {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        border-radius: 20px;
+        top: 0;
+        left: 0;
+        background: #fff;
+        transition: .5s;
+        box-shadow: 0 2px 5px rgba(0,0,0,.2);
+    }
+    
+    .toggle-switch:checked:before {
+        left: 30px;
+    }
 }
 
-.leaflet-top .leaflet-control-layers input:checked[type="checkbox"]:before {
-    left: 30px;
+.overlay__container {
+    min-width: 150px;
+    padding: 20px 30px !important;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10%;
+    text-align: center;
+    padding: 2px 0;
+    position: absolute;
+    z-index: 2;
+    bottom: 100%;
+    transform: translateX(-50%);
+
+    &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background-color: rgb(255, 255, 255);
+        top: calc(100% - 5px);
+        right: calc(50% - 5px);
+        z-index: 1;
+        transform: rotate(45deg);
+    }
 }
 
+.overlay__header {
+    font-weight: bold;
+    font-size: 14px;
+}
 
-
-
-
-
-  
+.overlay__data {
+    font-weight: normal;
+    font-size: 12px;
+}
