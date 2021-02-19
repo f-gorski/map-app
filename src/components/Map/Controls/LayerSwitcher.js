@@ -3,6 +3,8 @@ import LoadingSpinner from './LoadingSpinner';
 
 const LayerSwitcher = ({ devPlansData, setShowLayerDevPlans, singleData, setShowLayerSingle, multiData, setShowLayerMulti, mixedData, setShowLayerMixed }) => {
 
+    const [isOpen, setOpen] = useState(true);
+
     const [checkedState, setCheckedState] = useState({
         devPlans: false,
         single: false,
@@ -33,31 +35,35 @@ const LayerSwitcher = ({ devPlansData, setShowLayerDevPlans, singleData, setShow
                 null;
         }
 
-        
+
     }
 
     return (
-        <div className="layer-switcher">
-            {devPlansData ?
-                <input type="checkbox" id="devPlansToggle" name="devPlans" className="toggle-switch" onChange={handleChange} checked={checkedState.devPlans}></input> :
-                <LoadingSpinner />}
-            <label htmlFor="devPlansToggle">Plany zagospodarowania</label>
+        <>
+            <img src={require('../../../assets/layers-icon.svg')} className={isOpen ? "layer-switcher-burger layer-switcher-burger--open" : "layer-switcher-burger"} onClick={() => setOpen(!isOpen)}></img>
 
-            {singleData ?
-                <input type="checkbox" id="singleToggle" name="single" className="toggle-switch" onChange={handleChange} checked={checkedState.single}></input> :
-                <LoadingSpinner />}
-            <label htmlFor="singleToggle">Zabudowa jednorodzinna</label>
+            <div className={isOpen ? "layer-switcher layer-switcher--open" : "layer-switcher"}>
+                {devPlansData ?
+                    <input type="checkbox" id="devPlansToggle" name="devPlans" className="toggle-switch" onChange={handleChange} checked={checkedState.devPlans}></input> :
+                    <LoadingSpinner />}
+                <label htmlFor="devPlansToggle">Plany zagospodarowania</label>
 
-            {multiData ?
-                <input type="checkbox" id="multiToggle" name="multi" className="toggle-switch" onChange={handleChange} checked={checkedState.multi}></input> :
-                <LoadingSpinner />}
-            <label htmlFor="multiToggle">Zabudowa wielorodzinna</label>
+                {singleData ?
+                    <input type="checkbox" id="singleToggle" name="single" className="toggle-switch" onChange={handleChange} checked={checkedState.single}></input> :
+                    <LoadingSpinner />}
+                <label htmlFor="singleToggle">Zabudowa jednorodzinna</label>
 
-            {mixedData ?
-                <input type="checkbox" id="mixedToggle" name="mixed" className="toggle-switch" onChange={handleChange} checked={checkedState.mixed}></input> :
-                <LoadingSpinner />}
-            <label htmlFor="mixedToggle">Zabudowa mieszana</label>
-        </div>
+                {multiData ?
+                    <input type="checkbox" id="multiToggle" name="multi" className="toggle-switch" onChange={handleChange} checked={checkedState.multi}></input> :
+                    <LoadingSpinner />}
+                <label htmlFor="multiToggle">Zabudowa wielorodzinna</label>
+
+                {mixedData ?
+                    <input type="checkbox" id="mixedToggle" name="mixed" className="toggle-switch" onChange={handleChange} checked={checkedState.mixed}></input> :
+                    <LoadingSpinner />}
+                <label htmlFor="mixedToggle">Zabudowa mieszana</label>
+            </div>
+        </>
     );
 }
 
