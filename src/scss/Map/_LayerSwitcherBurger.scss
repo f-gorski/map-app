@@ -1,0 +1,23 @@
+.layer-switcher-burger {
+    position: absolute;
+    top: 35%;
+    right: 5%;
+    width: 50px;
+    height: 50px;
+    background-color: #f3f3f3;
+    box-shadow: 0 0 4px rgb(158, 158, 158);
+    z-index: 5;
+    cursor: pointer;
+    
+    &:focus {
+      outline: none;
+    }
+
+    &:hover {
+        background-color: #3498db;
+    }
+
+} 
+
+
+//#87aff88e;

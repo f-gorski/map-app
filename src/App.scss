@@ -4,8 +4,8 @@
 
 @import './scss/LandingPage/Landing_380';
 @import './scss/Navigation/Navigation_380';
-@import './scss/Burger.scss';
-@import './scss/Map';
+@import './scss/Navigation/Burger';
+@import './scss/Map/Map';
 
 @media screen and (min-width: 768px) {
     @import './scss/LandingPage/Landing_768';
