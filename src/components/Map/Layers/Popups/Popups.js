@@ -44,8 +44,8 @@ const Popups = ({ source, style, zIndex = 0 }) => {
                     setTypeOfLayer('functionPlans');
                     let planName = feature.get('nazwa_plan');
                     let planFunction = feature.get('fun_nazwa');
-                    let planHeight = feature.get('max_wys');
-                    let planBio = feature.get('pow_bio');
+                    let planHeight = feature.get('max_wys') + " m";
+                    let planBio = feature.get('pow_bio') + " %";
 
                     overlayFeatureName.current.innerHTML = planName || 'brak';
                     overlayFeatureFunction.current.innerHTML = planFunction || 'brak';
