@@ -8,7 +8,6 @@ const Navigation = () => {
     
     return (
         <header className={location.pathname === "/mapa" ? "header--map" : "header"}>
-            {console.log(location)}
             <div className="navigation__container">
                 <Burger isOpen={isOpen} setOpen={setOpen}/>
                 <nav className={isOpen ? "navigation navigation--open" : "navigation"}>

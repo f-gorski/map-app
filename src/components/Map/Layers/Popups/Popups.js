@@ -29,7 +29,6 @@ const Popups = ({ source, style, zIndex = 0 }) => {
             map.forEachFeatureAtPixel(e.pixel, (feature, layer) => {
                 let clickedCoordinate = e.coordinate;
                 overlay.setPosition(clickedCoordinate);
-                console.log(feature.getKeys());
 
                 if(layer.get('name') === 'devPlans') {
                     let planName = feature.get('nazwa_planu');

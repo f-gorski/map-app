@@ -7,7 +7,7 @@ import Popups from './Layers/Popups/Popups';
 import { fetchDevPlans, fetchDevTypes } from '../../utilities/apiCalls';
 
 import styles from './Layers/layerStyles';
-import { fromLonLat, get } from 'ol/proj';
+import { get } from 'ol/proj';
 import GeoJSON from 'ol/format/GeoJSON';
 import osm from './Source/osm';
 import vector from './Source/vector';
@@ -17,7 +17,6 @@ import ToggleLayerControl from './Controls/LayerSwitcher';
 import LayerSwitcher from './Controls/LayerSwitcher';
 
 const Map = () => {
-    //const [center, setCenter] = useState([21.00412, 52.23235]);
     const [center, setCenter] = useState([2338380.678557, 6842117.267520]);
     const [zoom, setZoom] = useState(13);
 
@@ -38,7 +37,6 @@ const Map = () => {
 
     return (
         <>
-            {console.log(center)}
             <MapProvider center={center} zoom={zoom} setCenter={setCenter}>
                 <Layers>
                     <BaseLayer source={osm()} zIndex={0} />

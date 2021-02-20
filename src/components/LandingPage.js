@@ -15,7 +15,7 @@ const LandingPage = () => {
                     <h3 className="landing-page__cta-subheader">
                         do rewolucji przestrzennej
                     </h3>
-                    <Link to="/map" className="landing-page__cta-link">OTWÓRZ MAPĘ</Link>
+                    <Link to="/mapa" className="landing-page__cta-link">OTWÓRZ MAPĘ</Link>
                 </div>
 
                 <img src={require('../assets/map-blob.png').default} className="landing-page__img" />
