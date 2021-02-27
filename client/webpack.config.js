@@ -6,7 +6,8 @@ module.exports = {
   entry: `./${entryPath}${entryFile}`,
   output: {
     filename: "out.js",
-    path: path.resolve(__dirname, `/build`)
+    //path: path.resolve(__dirname, `/build`)
+    path: path.join('C:/Users/qwerty/Desktop/map-app/map-app', '/build')
   },
   devServer: {
     contentBase: path.__dirname,
