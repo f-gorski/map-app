@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const polygonSchema = new Schema({
+const terrFuncSchema = new Schema({
     type: { 
         type: String, 
         required: true
@@ -12,4 +12,4 @@ const polygonSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('polygon', polygonSchema);
+module.exports = mongoose.model('terrFunc', terrFuncSchema);

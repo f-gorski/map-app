@@ -1,9 +1,11 @@
 const express = require('express')
 
-const controller = require('../controllers/controller')
+const devPlansController = require('../controllers/devPlans-controller')
+const terrFuncController = require('../controllers/terrFunc-controller')
 
 const router = express.Router()
 
-router.get('/polygons', controller.getPolygons)
+router.get('/devPlans', devPlansController.getDevPlans)
+router.get('/terrFunc', terrFuncController.getTerrFunc)
 
 module.exports = router
