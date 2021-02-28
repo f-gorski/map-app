@@ -25,7 +25,7 @@ const VectorLayer = ({ source, style, zIndex = 0, name }) => {
             }
         }
     }, [map])
-    console.log(map);
+    
     return null;
 }
 

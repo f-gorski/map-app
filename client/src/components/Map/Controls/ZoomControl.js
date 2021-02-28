@@ -4,7 +4,6 @@ import MapContext from '../MapContext';
 
 const ZoomControl = () => {
     const { map } = useContext(MapContext);
-    console.log(map)
 
     useEffect(() => {
         if (!map) {
