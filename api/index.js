@@ -12,6 +12,7 @@ app.use(cors())
 app.use(bodyParser.json())
 
 app.use('/api', polygonRouter)
+app.get('/', (req,res) => {res.send('API working')})
 
 // apiCalls.devPlansFetch()
 // apiCalls.terrFuncFetch()
