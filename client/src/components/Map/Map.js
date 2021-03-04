@@ -4,7 +4,7 @@ import Layers from './Layers/Layers';
 import BaseLayer from './Layers/BaseLayer';
 import VectorLayer from './Layers/VectorLayer';
 import Popups from './Layers/Popups/Popups';
-import { fetchDevPlans, fetchDevTypes } from '../../utilities/apiCalls';
+import { fetchDevPlans, fetchDevSingle, fetchDevMulti, fetchDevMixed } from '../../utilities/apiCalls';
 
 import styles from './Layers/layerStyles';
 import { get } from 'ol/proj';
@@ -32,7 +32,9 @@ const Map = () => {
 
     useEffect(() => {
         fetchDevPlans(setDevPlansData);
-        fetchDevTypes(setSingleData, setMultiData, setMixedData);
+        fetchDevSingle(setSingleData);
+        fetchDevMulti(setMultiData);
+        fetchDevMixed(setMixedData);
     }, []);
 
     return (

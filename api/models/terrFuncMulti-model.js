@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const devPlansSchema = new Schema({
+const terrFuncMultiSchema = new Schema({
     type: { 
         type: String, 
         required: true
@@ -12,4 +12,4 @@ const devPlansSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('devPlans', devPlansSchema, 'devPlans');
+module.exports = mongoose.model('terrFuncMulti', terrFuncMultiSchema, 'terrFuncMulti');
