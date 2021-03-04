@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const terrFuncSchema = new Schema({
+const terrFuncMixedSchema = new Schema({
     type: { 
         type: String, 
         required: true
@@ -12,4 +12,4 @@ const terrFuncSchema = new Schema({
     }
 })
 
-module.exports = mongoose.model('terrFunc', terrFuncSchema);
+module.exports = mongoose.model('terrFuncMixed', terrFuncMixedSchema, 'terrFuncMixed')

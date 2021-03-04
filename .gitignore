@@ -6,8 +6,8 @@
 firebase.json
 build/
 
-# Api credentials
-credentials.js
+#Credentials
+.env
 
 # Logs
 logs

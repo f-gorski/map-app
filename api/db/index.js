@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 mongoose
-    .connect('mongodb://127.0.0.1:27017/geoData', { useNewUrlParser: true })
+    .connect('mongodb+srv://map-app:getN7i9Z7Ktgm4F7@cluster0.yd5of.mongodb.net/?retryWrites=true', { useNewUrlParser: true })
     .catch(e => {
         console.error('Connection error', e.message)
     })
