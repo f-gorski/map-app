@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 mongoose
-    .connect('mongodb+srv://map-app:getN7i9Z7Ktgm4F7@cluster0.yd5of.mongodb.net/?retryWrites=true', { useNewUrlParser: true })
+    .connect(process.env.DATABASE_URL, { useNewUrlParser: true })
     .catch(e => {
         console.error('Connection error', e.message)
     })
