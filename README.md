@@ -21,7 +21,7 @@ Live demo available: https://map-app-22c5a.web.app/
 * Javascript ES6
 * React
 * Webpack
-* Leaflet
+* OpenLayers
 
 ## Installation
 
